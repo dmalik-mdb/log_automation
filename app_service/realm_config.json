@@ -1,0 +1,8 @@
+{
+    "app_id": "log_automation-etqww",
+    "config_version": 20210101,
+    "name": "log_automation",
+    "location": "US-VA",
+    "provider_region": "aws-us-east-1",
+    "deployment_model": "LOCAL"
+}
