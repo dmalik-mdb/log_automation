@@ -1,17 +1,18 @@
-exports = function(arg){
+exports =  function(){
 
   const public_key = context.values.get("api_public_key")
-  const private_key = context.values.get("api_private_key")
+  // console.log(public_key)
 
-  const response = context.http.get({
-    "scheme": "https",
-    "host": "cloud.mongodb.com",
-    "path": `/api/atlas/v1.0/groups`,
-    "username": public_key,
-    "password": private_key,
-    "digestAuth": true
-    })
+  // const private_key = context.values.get("api_private_key")
 
-  console.log(response)
-  return response
+  // const response = await context.http.get({
+  //   "scheme": "https",
+  //   "host": "cloud.mongodb.com",
+  //   "path": `/api/atlas/v1.0/groups`,
+  //   "username": public_key,
+  //   "password": private_key,
+  //   "digestAuth": true
+  //   })
+
+  return public_key
 };

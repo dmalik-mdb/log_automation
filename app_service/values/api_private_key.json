@@ -1,0 +1,5 @@
+{
+    "name": "api_private_key",
+    "value": "api_private_key_secret",
+    "from_secret": true
+}

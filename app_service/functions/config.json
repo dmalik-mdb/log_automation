@@ -10,5 +10,11 @@
         "private": true,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "2",
+        "private": true,
+        "run_as_system": true,
+        "disable_arg_logs": true
     }
 ]
