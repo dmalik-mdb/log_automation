@@ -1,4 +1,4 @@
-function request(page=1){
+function request(public_key, private_key, page=1){
   return context.http.get({
     "scheme": "https",
     "host": "cloud.mongodb.com",
@@ -11,22 +11,27 @@ function request(page=1){
 }
 
 exports =  async function(){
-
   const public_key = context.values.get("api_public_key")
   const private_key = context.values.get("api_private_key")
 
   let page = 1
-  let response = await request(page)
-  let all_pages = [response]
-  
+  let response = await request(public_key, private_key, page)
+  let response_body = EJSON.parse(response.body.text())
+  let all_projects = response_body.results.map((result) => {return result.orgId})
+
   const num_results = response.totalCount
   let num_pages = Math.ceil(num_results/500)+1
+
+//  console.log(num_results)
+//  console.log(num_pages)
+//  console.log(page)
   
-  while(page <= num_pages){
-        page++
-        response = await request(page)
-        all_pages.push(response)
-    }
+  // while(page <= num_pages){
+  //       page++
+  //       response = await request(public_key, private_key, page)
+  //       response_body = EJSON.parse(response.body.text())
+  //       all_projects.push(response_body.results.map(orgId => orgId))
+  //   }
     
-  return all_pages
+  return all_projects
 };
