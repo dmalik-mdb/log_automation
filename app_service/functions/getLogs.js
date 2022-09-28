@@ -15,6 +15,8 @@ exports = async function(){
     "digestAuth": true
     })
 
+  console.log(context.values.get("aws_access_key_id"))
+  console.log(context.values.get("aws_secret_access_key"))
   const data = response.body.text()
  
   const S3 = require('aws-sdk/clients/s3'); // require calls must be in exports function
@@ -32,11 +34,11 @@ exports = async function(){
   const timestamp = date.getTime()
 
   // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  const putResult = await s3.putObject({
-    Bucket: "logs-data-lake-bucket",
-    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
-    ContentType: 'application/gzip',
-    Body: data,
-  }).promise()
+  // const putResult = await s3.putObject({
+  //   Bucket: "logs-data-lake-bucket",
+  //   Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
+  //   ContentType: 'application/gzip',
+  //   Body: data,
+  // }).promise()
   
 };
