@@ -35,7 +35,7 @@ exports = async function(){
   //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
   const putResult = await AWS.S3.putObject({
     Bucket: "logs-data-lake-bucket",
-    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
+    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz',
     ContentType: 'application/gzip',
     Body: data
   })
