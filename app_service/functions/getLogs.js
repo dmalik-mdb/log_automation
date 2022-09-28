@@ -15,18 +15,15 @@ exports = async function(){
     "digestAuth": true
     })
 
-  // console.log(context.values.get("aws_access_key_id"))
-  // console.log(context.values.get("aws_secret_access_key"))
   const data = response.body.text()
  
-  const S3 = require('aws-sdk/clients/s3'); // require calls must be in exports function
-
-  const s3 = new S3({
+  const AWS = require('aws-sdk');
+  AWS.config.update({
     accessKeyId: context.values.get("aws_access_key_id"),
     secretAccessKey: context.values.get("aws_secret_access_key"),
-    region: "us-west-1",
+  	region: "us-west-1"
   });
-  
+
   const date = new Date()
   const yyyy = date.getFullYear()
   const mm = date.getMonth() + 1
@@ -34,7 +31,7 @@ exports = async function(){
   const timestamp = date.getTime()
 
   //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  const putResult = await s3.putObject({
+  const putResult = await client.putObject({
     Bucket: "logs-data-lake-bucket",
     Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
     ContentType: 'application/gzip',
