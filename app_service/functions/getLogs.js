@@ -5,11 +5,19 @@ exports = async function(){
   const public_key = context.values.get("api_public_key")
   const private_key = context.values.get("api_private_key")
   
+  const date = new Date()
+  const yyyy = date.getFullYear()
+  const mm = date.getMonth() + 1
+  const dd = date.getDate()
+  const end_timestamp = date.getTime()
+  const start_timestamp = end_timestamp - 86400
+
   const response = await context.http.get({
     "scheme": "https",
     "host": "cloud.mongodb.com",
     "path": `/api/atlas/v1.0/groups/${group_id}/clusters/${hostname}/logs/mongodb.gz`,
     //"headers" : { "Accept-Encoding": [ "gzip,deflate" ] },
+    "query": { "startDate": [start_timestamp.toString()], "endDate": [end_timestamp.toString()] },
     "username": public_key,
     "password": private_key,
     "digestAuth": true
@@ -24,18 +32,11 @@ exports = async function(){
   	region: "us-west-1"
   });
 
-  const date = new Date()
-  const yyyy = date.getFullYear()
-  const mm = date.getMonth() + 1
-  const dd = date.getDate()
-  const timestamp = date.getTime()
-
   //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  const putResult = await client.putObject({
+  const putResult = await AWS.S3.putObject({
     Bucket: "logs-data-lake-bucket",
     Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
     ContentType: 'application/gzip',
-    Body: data,
-  }).promise()
-  
+    Body: data
+  })
 };
