@@ -1,0 +1,5 @@
+{
+    "name": "aws_session_token",
+    "value": "aws_session_token_secret",
+    "from_secret": true
+}
