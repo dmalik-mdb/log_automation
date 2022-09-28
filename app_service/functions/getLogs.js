@@ -22,8 +22,9 @@ exports = async function(){
     "password": private_key,
     "digestAuth": true
     })
-
-  const data = response.body.text()
+  
+  
+  const data = response.body
  
   const AWS = require('aws-sdk');
   AWS.config.update({
@@ -32,11 +33,12 @@ exports = async function(){
   	region: "us-west-1"
   });
 
-  //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  const putResult = await AWS.S3.putObject({
-    Bucket: "logs-data-lake-bucket",
-    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz',
-    ContentType: 'application/gzip',
-    Body: data
-  })
+  return AWS
+  // //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+  // const putResult = await AWS.S3.putObject({
+  //   Bucket: "logs-data-lake-bucket",
+  //   Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz',
+  //   ContentType: 'application/gzip',
+  //   Body: data.toBase64()
+  // })
 };
