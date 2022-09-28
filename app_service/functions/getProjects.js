@@ -17,21 +17,17 @@ exports =  async function(){
   let page = 1
   let response = await request(public_key, private_key, page)
   let response_body = EJSON.parse(response.body.text())
-  let all_projects = response_body.results.map((result) => {return result.orgId})
+  let all_projects = response_body.results.map((result) => {return result.id})
 
-  const num_results = response.totalCount
-  let num_pages = Math.ceil(num_results/500)+1
+  const num_results = response_body.totalCount
+  let num_pages = Math.ceil(num_results/500)
 
-//  console.log(num_results)
-//  console.log(num_pages)
-//  console.log(page)
+  while(page < num_pages){
+        page++
+        response = await request(public_key, private_key, page)
+        response_body = EJSON.parse(response.body.text())
+        all_projects.push(response_body.results.map((result) => {return result.id}))
+  }
   
-  // while(page <= num_pages){
-  //       page++
-  //       response = await request(public_key, private_key, page)
-  //       response_body = EJSON.parse(response.body.text())
-  //       all_projects.push(response_body.results.map(orgId => orgId))
-  //   }
-    
   return all_projects
 };
