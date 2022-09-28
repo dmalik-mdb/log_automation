@@ -20,8 +20,8 @@ exports = async function(){
   const S3 = require('aws-sdk/clients/s3'); // require calls must be in exports function
 
   const s3 = new S3({
-    aws_access_key_id: context.values.get("aws_access_key_id"),
-    aws_secret_access_key: context.values.get("aws_secret_access_key"),
+    accessKeyId: context.values.get("aws_access_key_id"),
+    secretAccessKey: context.values.get("aws_secret_access_key"),
     region: "us-west-1",
   });
   
