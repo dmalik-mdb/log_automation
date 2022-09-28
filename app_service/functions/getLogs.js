@@ -15,7 +15,7 @@ exports = async function(){
     "digestAuth": true
     })
 
-  const data = response.body
+  const data = response.body.text()
  
   const S3 = require('aws-sdk/clients/s3'); // require calls must be in exports function
 
@@ -35,6 +35,7 @@ exports = async function(){
   const putResult = await s3.putObject({
     Bucket: "logs-data-lake-bucket",
     Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
+    ContentType: 'application/gzip',
     Body: data,
   }).promise()
   
