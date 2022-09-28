@@ -1,5 +1,5 @@
 exports = async function(){
-  const zlib = require("zlib");
+  const zlib = require("zlib")
   const group_id = '5f8880d666acb94471fd87c9'
   const hostname = 'dmalikm10-shard-00-00.us76j.mongodb.net'
   const public_key = context.values.get("api_public_key")
@@ -16,10 +16,11 @@ exports = async function(){
     })
 
   //return zlib.inflateSync(Buffer.from(response.body.toString(), 'base64'));
+  // zlib.gunzipSync(Buffer.from(data, 'base64')).toString('utf8');
   
-  const data = response.body.toString()
-  const buff = new Buffer(data, 'base64');
-  const res = zlib.gunzip(data, { finishFlush: zlib.Z_SYNC_FLUSH })
-  return res
+  const data = response.body.toBase64();
+  const buff = Buffer.from(data, 'base64')
+
+  return buff.toString()
 
 };

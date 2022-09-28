@@ -1,1 +1,1 @@
-{"dependencies":{"zlib":"1.0.5"}}
+{"dependencies":{"atob":"2.1.2","pako":"2.0.4","zlib":"1.0.5"}}
