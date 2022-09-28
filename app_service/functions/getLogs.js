@@ -1,6 +1,6 @@
 exports = async function(){
-  const pako = require("pako")
-  const atob = require("atob")
+  const S3 = require('aws-sdk/clients/s3'); // require calls must be in exports function
+
   const group_id = '5f8880d666acb94471fd87c9'
   const hostname = 'dmalikm10-shard-00-00.us76j.mongodb.net'
   const public_key = context.values.get("api_public_key")
@@ -16,22 +16,26 @@ exports = async function(){
     "digestAuth": true
     })
 
-  //return zlib.inflateSync(Buffer.from(response.body.toString(), 'base64'));
-  // zlib.gunzipSync(Buffer.from(data, 'base64')).toString('utf8');
-  // pako.ungzip(atob(data), { to: 'string' });
-  const data = response.body.toBase64();
+  const data = response.body
   
-  // convert the incoming base64 -> binary
-  const strData = atob(data);
-  console.log(strData)
-  // split it into an array rather than a "string"
-  //const charData = strData.split('').map(function(x){return x.charCodeAt(0); });
+  const s3 = new S3({
+    aws_access_key_id: context.values.get("aws_access_key_id"),
+    aws_secret_access_key: context.values.get("aws_secret_access_key"),
+    region: "us-west-1",
+  });
+  
+  const date = new Date();
+  const yyyy = date.getFullYear();
+  const mm = date.getMonth() + 1
+  const dd = date.getDate()
+  const timestamp = date.getTime()
 
-  // convert to binary
-  //const binData = new Uint8Array(charData);
-
-  // inflate
-  //const result = pako.inflate(binData, { to: 'string', chunkSize: 1024 });
+  // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+  const putResult = await s3.putObject({
+    Bucket: "logs-s3-bucket",
+    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + timestamp + '_mongodb.json.gz',
+    Body: EJSON.stringify({ hello: "world" }),
+  }).promise();
 
   
   return true

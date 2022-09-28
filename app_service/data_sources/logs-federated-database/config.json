@@ -1,0 +1,8 @@
+{
+    "name": "logs-federated-database",
+    "type": "datalake",
+    "config": {
+        "dataLakeName": "logs-federated-database"
+    },
+    "version": 1
+}
