@@ -1,7 +1,5 @@
 {
-    "from_secret": false,
     "name": "aws_access_key_id",
-    "value": {
-        "aws_access_key_id": "ASIA6IESFAOZ7T34Y742"
-    }
+    "value": "ASIA6IESFAOZ7T34Y742",
+    "from_secret": false
 }
