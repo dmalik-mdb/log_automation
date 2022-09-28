@@ -10,5 +10,11 @@
         "private": true,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "getAllProjects",
+        "private": true,
+        "run_as_system": true,
+        "disable_arg_logs": true
     }
 ]
