@@ -29,6 +29,7 @@ exports = async function(){
   AWS.config.update({
     accessKeyId: context.values.get("aws_access_key_id"),
     secretAccessKey: context.values.get("aws_secret_access_key"),
+    sessionToken: context.values.get("aws_session_token"),
   	region: "us-west-1"
   });
   
