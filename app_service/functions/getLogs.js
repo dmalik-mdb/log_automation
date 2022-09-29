@@ -48,6 +48,5 @@ exports = async function(){
     } if (data) {
       console.log("Upload Success", data.Location);
     }
-});
-
+  });
 };
