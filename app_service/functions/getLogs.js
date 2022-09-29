@@ -35,11 +35,15 @@ exports = async function(){
   // Create S3 service object
   const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
-  //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  const putResult = await s3.upload({
-    Bucket: "logs-data-lake-bucket",
-    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz',
-    ContentType: 'application/gzip',
-    Body: data
-  })
+  var uploadParams = {Bucket: "logs-data-lake-bucket", Key:'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz', Body: data};
+
+  // call S3 to retrieve upload file to specified bucket
+  s3.upload (uploadParams, function (err, data) {
+    if (err) {
+      console.log("Error", err);
+    } if (data) {
+      console.log("Upload Success", data.Location);
+    }
+});
+
 };
