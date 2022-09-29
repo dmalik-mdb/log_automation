@@ -6,9 +6,6 @@ exports = async function(){
   const private_key = context.values.get("api_private_key")
   
   const date = new Date()
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2,'0');
-  const dd = String(date.getDate()).padStart(2,'0');
   const end_timestamp = Math.floor(date.getTime()/1000)
   const start_timestamp = end_timestamp - 3600
 
@@ -39,7 +36,7 @@ exports = async function(){
 
   var uploadParams = {
     Bucket: "logs-data-lake-bucket", 
-    Key:'raw/'+ group_id + '/' + hostname + '/' + `${yyyy}${mm}${dd}` + '/' + end_timestamp + '_mongodb.gz', 
+    Key:'raw/'+ group_id + '/' + hostname + '/' + end_timestamp + '_mongodb.gz', 
     Body: Buffer.from(data.toBase64(), "base64"),
     ContentType: 'application/gzip',
   };
