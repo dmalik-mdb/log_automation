@@ -23,7 +23,7 @@ exports = async function(){
     "digestAuth": true
     })
   
- const data = response.body.toBase64()
+ const data = response.body
  
   const AWS = require('aws-sdk');
   AWS.config.update({
@@ -39,8 +39,7 @@ exports = async function(){
   var uploadParams = {
     Bucket: "logs-data-lake-bucket", 
     Key:'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.gz', 
-    Body: data,
-    ContentType: "application/json",
+    Body: Buffer.from(data.toBase64(), "base64"),
     ContentEncoding: "gzip",
   };
 
