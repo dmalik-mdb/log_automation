@@ -1,14 +1,14 @@
 exports = async function(){
 
   const group_id = '5f8880d666acb94471fd87c9'
-  const hostname = 'dmalikm10-shard-00-00.us76j.mongodb.net'
+  const hostname = 'dmalikm10-shard-00-01.us76j.mongodb.net'
   const public_key = context.values.get("api_public_key")
   const private_key = context.values.get("api_private_key")
   
   const date = new Date()
-  const yyyy = date.getFullYear()
-  const mm = date.getMonth() + 1
-  const dd = date.getDate()
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2,'0');
+  const dd = String(date.getDate()).padStart(2,'0');
   const end_timestamp = Math.floor(date.getTime()/1000)
   const start_timestamp = end_timestamp - 3600
 
@@ -23,7 +23,8 @@ exports = async function(){
     "digestAuth": true
     })
   
- const data = response.body
+  console.log(response)
+  const data = response.body
  
   const AWS = require('aws-sdk');
   AWS.config.update({
@@ -38,9 +39,9 @@ exports = async function(){
 
   var uploadParams = {
     Bucket: "logs-data-lake-bucket", 
-    Key:'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.gz', 
+    Key:'raw/'+ group_id + '/' + hostname + '/' + `${yyyy}${mm}${dd}` + '/' + end_timestamp + '_mongodb.gz', 
     Body: Buffer.from(data.toBase64(), "base64"),
-    ContentEncoding: "gzip",
+    ContentType: 'application/gzip',
   };
 
   // call S3 to retrieve upload file to specified bucket
