@@ -9,8 +9,8 @@ exports = async function(){
   const yyyy = date.getFullYear()
   const mm = date.getMonth() + 1
   const dd = date.getDate()
-  const end_timestamp = date.getTime()
-  const start_timestamp = end_timestamp - 86400
+  const end_timestamp = Math.floor(date.getTime()/1000)
+  const start_timestamp = end_timestamp - 3600
 
   const response = await context.http.get({
     "scheme": "https",
@@ -23,21 +23,23 @@ exports = async function(){
     "digestAuth": true
     })
   
-  return response
-  // const data = response.body.toBase64()
+ const data = response.body.toBase64()
  
-  // const AWS = require('aws-sdk');
-  // AWS.config.update({
-  //   accessKeyId: context.values.get("aws_access_key_id"),
-  //   secretAccessKey: context.values.get("aws_secret_access_key"),
-  // 	region: "us-west-1"
-  // });
+  const AWS = require('aws-sdk');
+  AWS.config.update({
+    accessKeyId: context.values.get("aws_access_key_id"),
+    secretAccessKey: context.values.get("aws_secret_access_key"),
+  	region: "us-west-1"
+  });
   
-  // //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  // const putResult = await AWS.S3.upload({
-  //   Bucket: "logs-data-lake-bucket",
-  //   Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz',
-  //   ContentType: 'application/gzip',
-  //   Body: data
-  // })
+  // Create S3 service object
+  const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
+  //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+  const putResult = await s3.upload({
+    Bucket: "logs-data-lake-bucket",
+    Key: 'raw/'+ group_id + '/' + hostname + '/' + yyyy + '/' + mm + '/' + dd + '/' + start_timestamp + '_' + end_timestamp + '_mongodb.json.gz',
+    ContentType: 'application/gzip',
+    Body: data
+  })
 };
